@@ -1,9 +1,24 @@
-### Installation and usage
+### Installing graphicsmagick
+You will have to install graphicsmagick to use iconverter.
 
 ```
-# install iconverter
-$ composer global require maximkott/iconverter
+# on OSX
+$ brew install graphicsmagick
 
+# on Ubuntu
+$ sudo add-apt-repository ppa:dhor/myway
+$ sudo apt-get update
+$ sudo apt-get install graphicsmagick
+```
+
+### Installing iconverter
+```
+# install iconverter
+$ composer global require maximkott/iconverter:dev-master
+```
+
+### Usage
+```
 # view available options
 $ iconverter -h
     usage:
