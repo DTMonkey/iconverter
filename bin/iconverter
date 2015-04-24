@@ -1,0 +1,336 @@
+#!/usr/bin/env php
+<?php
+
+$settings = [
+    "subdir" => "%filename%_resized",
+    "groups" => [
+        "android" => [
+            "subdir" => "android",
+            "icons" => [
+                ["name" => "playstore-icon", "size" => "512x512"],
+                ["name" => "ic_launcher", "subdir" => "drawable-mdpi", "size" => "48x48"],
+                ["name" => "ic_launcher", "subdir" => "drawable-hdpi", "size" => "72x72"],
+                ["name" => "ic_launcher", "subdir" => "drawable-xhdpi", "size" => "96x96"],
+                ["name" => "ic_launcher", "subdir" => "drawable-xxhdpi", "size" => "144x144"],
+                ["name" => "ic_launcher", "subdir" => "drawable-xxxhdpi", "size" => "192x192"],
+
+                ["name" => "ic_%filename%", "subdir" => "drawable-mdpi", "size" => "24x24", "canvas" => "32x32"],
+                ["name" => "ic_%filename%", "subdir" => "drawable-hdpi", "size" => "36x36", "canvas" => "48x48"],
+                ["name" => "ic_%filename%", "subdir" => "drawable-xhdpi", "size" => "48x48", "canvas" => "64x64"],
+                ["name" => "ic_%filename%", "subdir" => "drawable-xxhdpi", "size" => "72x72", "canvas" => "96x96"],
+                ["name" => "ic_%filename%", "subdir" => "drawable-xxxhdpi", "size" => "96x96", "canvas" => "128x128"],
+
+
+                ["name" => "ic_small_%filename%", "subdir" => "drawable-mdpi", "size" => "12x12", "canvas" => "16x16"],
+                ["name" => "ic_small_%filename%", "subdir" => "drawable-hdpi", "size" => "18x18", "canvas" => "24x24"],
+                ["name" => "ic_small_%filename%", "subdir" => "drawable-xhdpi", "size" => "24x24", "canvas" => "32x32"],
+                ["name" => "ic_small_%filename%", "subdir" => "drawable-xxhdpi", "size" => "36x36", "canvas" => "48x48"],
+                ["name" => "ic_small_%filename%", "subdir" => "drawable-xxxhdpi", "size" => "48x48", "canvas" => "64x64"],
+
+
+                ["name" => "ic_stat_%filename%", "subdir" => "drawable-mdpi", "size" => "22x22", "canvas" => "24x24"],
+                ["name" => "ic_stat_%filename%", "subdir" => "drawable-hdpi", "size" => "33x33", "canvas" => "36x36"],
+                ["name" => "ic_stat_%filename%", "subdir" => "drawable-xhdpi", "size" => "44x44", "canvas" => "48x48"],
+                ["name" => "ic_stat_%filename%", "subdir" => "drawable-xxhdpi", "size" => "66x66", "canvas" => "72x72"],
+                ["name" => "ic_stat_%filename%", "subdir" => "drawable-xxxhdpi", "size" => "88x88", "canvas" => "96x96"],
+            ],
+        ],
+        "ios" => [
+            "subdir" => "ios",
+            "icons" => [
+                ["size" => "57x57", "name" => "%filename%"],
+                ["size" => "114x114", "name" => "%filename%@2x"],
+                ["size" => "29x29", "name" => "%filename%-Small"],
+                ["size" => "58x58", "name" => "%filename%-Small@2x"],
+                ["size" => "87x87", "name" => "%filename%-Small@3x"],
+                ["size" => "50x50", "name" => "%filename%-Small-50"],
+                ["size" => "100x100", "name" => "%filename%-Small-50@2x"],
+                ["size" => "40x40", "name" => "%filename%-40"],
+                ["size" => "80x80", "name" => "%filename%-40@2x"],
+                ["size" => "120x120", "name" => "%filename%-40@3x"],
+                ["size" => "120x120", "name" => "%filename%-60@2x"],
+                ["size" => "180x180", "name" => "%filename%-60@3x"],
+                ["size" => "72x72", "name" => "%filename%-72"],
+                ["size" => "144x144", "name" => "%filename%-72@2x"],
+                ["size" => "76x76", "name" => "%filename%-76"],
+                ["size" => "152x152", "name" => "%filename%-76@2x"],
+                ["size" => "120x120", "name" => "%filename%-120"],
+                ["size" => "512x512", "name" => "iTunesArtwork"],
+                ["size" => "1024x1024", "name" => "iTunesArtwork@2x"],
+            ],
+        ],
+    ],
+];
+
+////////////////////////////////////////////////////////////////////////////////
+
+$app = new ConsoleApplication($argv, $settings);
+$app->run();
+
+////////////////////////////////////////////////////////////////////////////////
+
+class ConsoleApplication
+{
+    private $terminal;
+    private $settings;
+    private $cwd;
+    private $args;
+    private $relativeIconPath;
+    private $absoluteIconPath;
+    private $outputDirectoryPath;
+
+    public function __construct(array $args, array $settings)
+    {
+        $this->terminal = new Terminal();
+        $this->args = $args;
+        $this->flags = array_slice($args, 2);
+        $this->settings = $settings;
+    }
+
+    private function checkRequirements()
+    {
+        $check = exec("which gm");
+
+        if (!! empty($check)) {
+            $this->terminal->say("error: you have to install graphicsmagick.");
+            $this->terminal->say("    brew install graphicsmagick");
+            exit;
+        }
+    }
+
+    public function run()
+    {
+        $this->commandHelp();
+        $this->commandConvert();
+    }
+
+    private function commandHelp()
+    {
+        if (in_array("-h", $this->args) or in_array("--help", $this->args)) {
+            $this->terminal->say("usage:");
+            $this->terminal->say("    icon            relative icon path");
+            $this->terminal->say("    -n --name       name for generated icons");
+            $this->terminal->say("    -a --android    convert icon for android");
+            $this->terminal->say("    -i --ios        convert icon for ios");
+
+            $this->terminal->abort();
+        }
+    }
+
+    private function commandConvert()
+    {
+        $this->checkRequirements();
+
+        $this->cwd = getcwd();
+
+        if (isset($this->args[1])) {
+            $this->relativeIconPath = $this->args[1];
+        } else {
+            $this->terminal->abort("error: specify an icon path");
+        }
+
+        $this->absoluteIconPath = implode("/", [$this->cwd, $this->relativeIconPath]);
+        $this->outputDirectoryPath = $this->absoluteIconPath . "_resized";
+        $customIconName = null;
+
+        if ( ! file_exists($this->absoluteIconPath)) {
+            $this->terminal->abort("error: no icon found at: $this->absoluteIconPath");
+        }
+
+
+        if (in_array("-n", $this->flags) or in_array("--name", $this->flags)) {
+            $index = array_search("-n", $this->flags);
+
+            if ($index === false) {
+                $index = array_search("--name", $this->flags);
+            }
+
+            $index++;
+
+            if ( ! isset($this->flags[$index])) {
+                $this->terminal->abort("error: enter an icon name");
+            }
+
+            $customIconName = $this->flags[$index];
+        }
+
+        if ( ! isset($this->args[1])) {
+            $this->terminal->say("error: enter an icon path"); exit;
+        }
+
+        if (in_array("-a", $this->flags) or in_array("--android", $this->flags)) {
+            $this->createAndroidIcons($customIconName);
+        }
+
+        if (in_array("-i", $this->flags) or in_array("--ios", $this->flags)) {
+            $this->createIosIcons($customIconName);
+        }
+
+        if ( ! in_array("-a", $this->flags)
+            and ! in_array("--android", $this->flags)
+            and ! in_array("-i", $this->flags)
+            and ! in_array("--ios", $this->flags)
+        ) {
+            $this->createAndroidIcons($customIconName);
+            $this->createIosIcons($customIconName);
+        }
+    }
+
+    private function createAndroidIcons($customIconName)
+    {
+        $this->terminal->say("creating android icons.");
+        $converter = new IconConverter(
+            $this->absoluteIconPath,
+            $this->outputDirectoryPath,
+            $this->settings["groups"]["android"],
+            $customIconName
+        );
+        $converter->createIcons();
+    }
+
+    private function createIosIcons($customIconName)
+    {
+        $this->terminal->say("creating ios icons.");
+        $converter = new IconConverter(
+            $this->absoluteIconPath,
+            $this->outputDirectoryPath,
+            $this->settings["groups"]["ios"],
+            $customIconName
+        );
+        $converter->createIcons();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+class IconConverter
+{
+    private $converter;
+    private $absoluteIconPath;
+    private $outputDirectoryPath;
+    private $androidDirectoryPath;
+    private $iconName;
+    private $settings;
+
+    public function __construct($absoluteIconPath, $outputDirectoryPath, array $settings, $customIconName = null)
+    {
+        $this->settings = $settings;
+        $this->absoluteIconPath = $absoluteIconPath;
+        $this->outputDirectoryPath = $outputDirectoryPath;
+        if ($customIconName !== null) {
+            $this->iconName = $customIconName;
+        } else {
+            $this->iconName = pathinfo($this->absoluteIconPath, PATHINFO_FILENAME);
+        }
+
+        $this->converter = new ImageConverter();
+    }
+
+    public function createIcons()
+    {
+        $outputDirectoryPath = implode("/", [
+            $this->outputDirectoryPath, $this->settings["subdir"]
+        ]);
+
+        if (is_dir($outputDirectoryPath)) {
+            exec("rm -rf $outputDirectoryPath");
+        }
+
+        exec("mkdir -p $outputDirectoryPath");
+
+        foreach ($this->settings["icons"] as $iconSettings) {
+            $this->createIcon($outputDirectoryPath, $iconSettings);
+        }
+    }
+
+    private function createIcon($outputDirectoryPath, array $iconSettings)
+    {
+        if (isset($iconSettings["subdir"])) {
+            $outputDirectoryPath = implode("/", [
+                $outputDirectoryPath,
+                $iconSettings["subdir"]
+            ]);
+
+            exec("mkdir -p $outputDirectoryPath");
+        }
+
+        $iconPath = implode("/", [
+            $outputDirectoryPath,
+            $this->formatIconFileName($iconSettings["name"]) . ".png"
+        ]);
+
+        if (isset($iconSettings["canvas"])) {
+            $this->converter->resizeImageInset($this->absoluteIconPath, $iconPath, $iconSettings["canvas"], $iconSettings["size"]);
+        } else {
+            $this->converter->resizeImage($this->absoluteIconPath, $iconPath, $iconSettings["size"]);
+        }
+    }
+
+    private function formatIconFileName($format)
+    {
+        return str_replace("%filename%", $this->iconName, $format);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+class ImageConverter
+{
+    public function resizeImage($sourcePath, $destinationPath, $imageSize)
+    {
+        exec("gm convert $sourcePath -resize $imageSize +profile '*' $destinationPath");
+    }
+
+    public function resizeImageInset($sourcePath, $destinationPath, $canvasSize, $imageSize)
+    {
+        exec("gm convert $sourcePath -resize $imageSize -background transparent -gravity center -extent $canvasSize +profile '*' $destinationPath");
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+class Terminal
+{
+    public function read($string)
+    {
+        $this->write("$string: ");
+
+        $handle = fopen("php://stdin","r");
+        $line = trim(fgets($handle));
+
+        return $line;
+    }
+
+    public function ask($string, $default = false)
+    {
+        $this->write("$string (y/n): ");
+
+        $handle = fopen("php://stdin","r");
+        $line = trim(fgets($handle));
+
+        if ($line == "") {
+            return $default;
+        } else {
+            return in_array($line, ["y", "yes"]);
+        }
+    }
+
+    public function write($string)
+    {
+        echo $string;
+    }
+
+    public function say($string, $nl = true)
+    {
+        echo "$string\n";
+    }
+
+    public function abort($string = null)
+    {
+        if ($string) {
+            $this->say($string);
+        }
+
+        exit(0);
+    }
+}

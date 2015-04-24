@@ -1,0 +1,16 @@
+{
+    "name": "maximkott/iconverter",
+    "description": "Convert icons for common mobile plattforms.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maxim Kott",
+            "email": "maximkott@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "bin": ["bin/iconverter"],
+    "suggest": {
+        "graphicsmagick": "to convert icons."
+    }
+}
