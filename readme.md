@@ -73,7 +73,7 @@ $ ls
                 ic_small_icon.png
                 ic_stat_icon.png
             playstore-icon.png
-        ios # ios icons for all possible sitations
+        ios # ios icons for all possible situations
             iTunesArtwork.png
             icon-40@3x.png
             icon-76.png
