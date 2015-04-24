@@ -33,3 +33,65 @@ $ iconverter $ICON$
 
 ### Custom settings
 Iconverter is driven by a config file, [**settings.php**](https://github.com/maximkott/iconverter/blob/master/settings.php), which you can modify to fit your needs.
+
+### Example
+```
+$ ls
+    icon.png
+
+$ iconverter icon.png
+    creating android icons.
+    creating ios icons.
+
+$ ls
+    icon.png
+    icon.png_resized # resized icons are in here
+        android # android icons for various resolutions
+            drawable-hdpi
+                ic_icon.png
+                ic_launcher.png
+                ic_small_icon.png
+                ic_stat_icon.png
+            drawable-mdpi
+                ic_icon.png
+                ic_launcher.png
+                ic_small_icon.png
+                ic_stat_icon.png
+            drawable-xhdpi
+                ic_icon.png
+                ic_launcher.png
+                ic_small_icon.png
+                ic_stat_icon.png
+            drawable-xxhdpi
+                ic_icon.png
+                ic_launcher.png
+                ic_small_icon.png
+                ic_stat_icon.png
+            drawable-xxxhdpi
+                ic_icon.png
+                ic_launcher.png
+                ic_small_icon.png
+                ic_stat_icon.png
+            playstore-icon.png
+        ios # ios icons for all possible sitations
+            iTunesArtwork.png
+            icon-40@3x.png
+            icon-76.png
+            icon-Small@2x.png
+            iTunesArtwork@2x.png
+            icon-60@2x.png
+            icon-76@2x.png
+            icon-Small@3x.png
+            icon-120.png
+            icon-60@3x.png
+            icon-Small-50.png
+            icon.png
+            icon-40.png
+            icon-72.png
+            icon-Small-50@2x.png
+            icon@2x.png
+            icon-40@2x.png
+            icon-72@2x.png
+            icon-Small.png
+```
+

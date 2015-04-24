@@ -72,7 +72,12 @@ class ConsoleApplication
             $this->terminal->abort("error: specify an icon path");
         }
 
-        $this->absoluteIconPath = implode("/", [$this->cwd, $this->relativeIconPath]);
+        if (in_array(substr($this->relativeIconPath, 0, 1), ["/", "~"])) {
+            $this->absoluteIconPath = $this->relativeIconPath;
+        } else {
+            $this->absoluteIconPath = implode("/", [$this->cwd, $this->relativeIconPath]);
+        }
+
         $this->outputDirectoryPath = $this->absoluteIconPath . "_resized";
         $customIconName = null;
 
