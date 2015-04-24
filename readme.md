@@ -2,7 +2,7 @@
 
 ```
 # install iconverter
-$ composer global install maximkott/iconverter
+$ composer global require maximkott/iconverter
 
 # view available options
 $ iconverter -h
