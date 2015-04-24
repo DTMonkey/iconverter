@@ -32,4 +32,4 @@ $ iconverter $ICON$
 ```
 
 ### Custom settings
-Iconverter is driven by a config file, **settings.php** (https://github.com/maximkott/iconverter/blob/master/settings.php), which you can modify to fit your needs.
+Iconverter is driven by a config file, [**settings.php**](https://github.com/maximkott/iconverter/blob/master/settings.php), which you can modify to fit your needs.
