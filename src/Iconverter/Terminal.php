@@ -37,13 +37,4 @@ class Terminal
     {
         echo "$string\n";
     }
-
-    public function abort($string = null)
-    {
-        if ($string) {
-            $this->say($string);
-        }
-
-        exit(0);
-    }
 }

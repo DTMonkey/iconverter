@@ -46,7 +46,7 @@ class ConsoleApplication
             $this->terminal->say("    -a --android    convert icon for android");
             $this->terminal->say("    -i --ios        convert icon for ios");
 
-            $this->terminal->abort();
+            $this->abort();
         }
     }
 
@@ -59,7 +59,7 @@ class ConsoleApplication
         if (isset($this->args[0])) {
             $this->relativeIconPath = $this->args[0];
         } else {
-            $this->terminal->abort("error: specify an icon path");
+            $this->abort("error: specify an icon path");
         }
 
         if (in_array(substr($this->relativeIconPath, 0, 1), ["/", "~"])) {
@@ -72,7 +72,7 @@ class ConsoleApplication
         $customIconName = null;
 
         if ( ! file_exists($this->absoluteIconPath)) {
-            $this->terminal->abort("error: no icon found at: $this->absoluteIconPath");
+            $this->abort("error: no icon found at: $this->absoluteIconPath");
         }
 
 
@@ -86,7 +86,7 @@ class ConsoleApplication
             $index++;
 
             if ( ! isset($this->flags[$index])) {
-                $this->terminal->abort("error: enter an icon name");
+                $this->abort("error: enter an icon name");
             }
 
             $customIconName = $this->flags[$index];
@@ -136,5 +136,14 @@ class ConsoleApplication
             $customIconName
         );
         $converter->createIcons();
+    }
+
+    private function abort($string = null)
+    {
+        if ($string !== null) {
+            $this->terminal->say($string);
+        }
+
+        exit(0);
     }
 }
