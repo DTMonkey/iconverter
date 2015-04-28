@@ -15,7 +15,7 @@ class ConsoleApplication
     public function __construct(array $args, array $settings)
     {
         $this->terminal = new Terminal();
-        $this->args = $args;
+        $this->args = array_slice($args, 1);
         $this->flags = array_slice($args, 2);
         $this->settings = $settings;
     }
@@ -39,7 +39,7 @@ class ConsoleApplication
 
     private function commandHelp()
     {
-        if (in_array("-h", $this->args) or in_array("--help", $this->args)) {
+        if (in_array("-h", $this->args) or in_array("--help", $this->args) or count($this->args) == 0) {
             $this->terminal->say("usage:");
             $this->terminal->say("    icon            relative icon path");
             $this->terminal->say("    -n --name       name for generated icons");
@@ -56,8 +56,8 @@ class ConsoleApplication
 
         $this->cwd = getcwd();
 
-        if (isset($this->args[1])) {
-            $this->relativeIconPath = $this->args[1];
+        if (isset($this->args[0])) {
+            $this->relativeIconPath = $this->args[0];
         } else {
             $this->terminal->abort("error: specify an icon path");
         }
@@ -92,7 +92,7 @@ class ConsoleApplication
             $customIconName = $this->flags[$index];
         }
 
-        if ( ! isset($this->args[1])) {
+        if ( ! isset($this->args[0])) {
             $this->terminal->say("error: enter an icon path"); exit;
         }
 
