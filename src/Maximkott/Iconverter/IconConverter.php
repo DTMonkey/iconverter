@@ -1,6 +1,6 @@
 <?php
 
-namespace Iconverter;
+namespace Maximkott\Iconverter;
 
 class IconConverter
 {

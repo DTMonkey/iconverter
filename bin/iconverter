@@ -10,5 +10,5 @@ if (file_exists(__DIR__ . "/../vendor/autoload.php")) {
     exit(1);
 }
 
-$app = new \Iconverter\ConsoleApplication($argv);
+$app = new \Maximkott\Iconverter\ConsoleApplication($argv);
 $app->run();
