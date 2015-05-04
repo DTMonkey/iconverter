@@ -25,7 +25,7 @@ class Iconverter
         return $this->createIcons($this->settings["groups"]["ios"], $absoluteIconPath, $customIconName);
     }
 
-    public function createIcons(array $settings, $absoluteIconPath, $customIconName = null)
+    public function createIcons(array $settings, $absoluteIconPath, $customIconName = null, $outputDirectoryPath = null)
     {
         if ($outputDirectoryPath === null) {
             $outputDirectoryPath = $this->generateDefaultOutputDirectoryName($absoluteIconPath);
