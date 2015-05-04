@@ -19,7 +19,7 @@ $ sudo apt-get install graphicsmagick
 $ composer global require maximkott/iconverter:dev-master
 ```
 
-### Usage
+### Command line usage
 
 View available options:
 
@@ -29,7 +29,7 @@ $ iconverter -h
         icon            relative icon path
         -n --name       name for generated icons
         -a --android    convert icon for android
-        -i --ios        convert icon for ios        
+        -i --ios        convert icon for ios
 ```
 
 Generate icons from an image:
@@ -53,11 +53,18 @@ This will generate icons as follows:
 * home-Small@2x.png
 ```
 
+### PHP usage
+
+```
+$converter = new Iconverter();
+$converter->createIosIcons($absoluteIconPath, $customIconName);
+```
+
 ### Custom settings
 
 Iconverter is driven by a config file, [**settings.php**](https://github.com/maximkott/iconverter/blob/master/settings.php), which you can modify to fit your needs.
 
-### Example
+### Output
 
 Generating an icon without further options will generate this file sturcture for you.
 
