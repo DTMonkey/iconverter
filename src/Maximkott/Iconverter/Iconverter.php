@@ -9,7 +9,7 @@ class Iconverter
     public function __construct(array $settings = null)
     {
         if ($settings === null) {
-            $settings = require __DIR__ . "/../../settings.php";
+            $settings = require __DIR__ . "/../../../settings.php";
         }
 
         $this->settings = $settings;
