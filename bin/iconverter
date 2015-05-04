@@ -10,7 +10,5 @@ if (file_exists(__DIR__ . "/../vendor/autoload.php")) {
     exit(1);
 }
 
-$settings = require __DIR__ . "/../settings.php";
-
-$app = new \Iconverter\ConsoleApplication($argv, $settings);
+$app = new \Iconverter\ConsoleApplication($argv);
 $app->run();

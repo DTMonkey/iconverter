@@ -5,19 +5,16 @@ namespace Iconverter;
 class ConsoleApplication
 {
     private $terminal;
-    private $settings;
     private $cwd;
     private $args;
     private $relativeIconPath;
     private $absoluteIconPath;
-    private $outputDirectoryPath;
 
-    public function __construct(array $args, array $settings)
+    public function __construct(array $args)
     {
         $this->terminal = new Terminal();
         $this->args = array_slice($args, 1);
         $this->flags = array_slice($args, 2);
-        $this->settings = $settings;
     }
 
     private function checkRequirements()
@@ -68,7 +65,6 @@ class ConsoleApplication
             $this->absoluteIconPath = implode("/", [$this->cwd, $this->relativeIconPath]);
         }
 
-        $this->outputDirectoryPath = $this->absoluteIconPath . "_resized";
         $customIconName = null;
 
         if ( ! file_exists($this->absoluteIconPath)) {
@@ -97,11 +93,11 @@ class ConsoleApplication
         }
 
         if (in_array("-a", $this->flags) or in_array("--android", $this->flags)) {
-            $this->createAndroidIcons($customIconName);
+            $this->createAndroidIcons($this->absoluteIconPath, $customIconName);
         }
 
         if (in_array("-i", $this->flags) or in_array("--ios", $this->flags)) {
-            $this->createIosIcons($customIconName);
+            $this->createIosIcons($this->absoluteIconPath, $customIconName);
         }
 
         if ( ! in_array("-a", $this->flags)
@@ -109,33 +105,23 @@ class ConsoleApplication
             and ! in_array("-i", $this->flags)
             and ! in_array("--ios", $this->flags)
         ) {
-            $this->createAndroidIcons($customIconName);
-            $this->createIosIcons($customIconName);
+            $this->createAndroidIcons($this->absoluteIconPath, $customIconName);
+            $this->createIosIcons($this->absoluteIconPath, $customIconName);
         }
     }
 
-    private function createAndroidIcons($customIconName)
+    private function createAndroidIcons($absoluteIconPath, $customIconName)
     {
         $this->terminal->say("creating android icons.");
-        $converter = new IconConverter(
-            $this->absoluteIconPath,
-            $this->outputDirectoryPath,
-            $this->settings["groups"]["android"],
-            $customIconName
-        );
-        $converter->createIcons();
+        $converter = new Iconverter();
+        $converter->createAndroidIcons($absoluteIconPath, $customIconName);
     }
 
-    private function createIosIcons($customIconName)
+    private function createIosIcons($absoluteIconPath, $customIconName)
     {
         $this->terminal->say("creating ios icons.");
-        $converter = new IconConverter(
-            $this->absoluteIconPath,
-            $this->outputDirectoryPath,
-            $this->settings["groups"]["ios"],
-            $customIconName
-        );
-        $converter->createIcons();
+        $converter = new Iconverter();
+        $converter->createIosIcons($absoluteIconPath, $customIconName);
     }
 
     private function abort($string = null)
