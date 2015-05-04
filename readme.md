@@ -56,8 +56,11 @@ This will generate icons as follows:
 ### PHP usage
 
 ```
-$converter = new Iconverter();
-$converter->createIosIcons($absoluteIconPath, $customIconName);
+$converter = new Iconverter(); // use default settings
+$converter = new Iconverter($settings); // use custom settings
+
+$converter->createIosIcons($absoluteIconPath, $customIconName); // create icons for ios
+$converter->createAndroidIcons($absoluteIconPath, $customIconName); // create icons for android
 ```
 
 ### Custom settings
