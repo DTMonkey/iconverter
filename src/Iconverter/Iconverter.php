@@ -17,12 +17,12 @@ class Iconverter
 
     public function createAndroidIcons($absoluteIconPath, $customIconName = null)
     {
-        $this->createIcons($this->settings["groups"]["android"], $absoluteIconPath, $customIconName);
+        return $this->createIcons($this->settings["groups"]["android"], $absoluteIconPath, $customIconName);
     }
 
     public function createIosIcons($absoluteIconPath, $customIconName = null)
     {
-        $this->createIcons($this->settings["groups"]["ios"], $absoluteIconPath, $customIconName);
+        return $this->createIcons($this->settings["groups"]["ios"], $absoluteIconPath, $customIconName);
     }
 
     public function createIcons(array $settings, $absoluteIconPath, $customIconName = null)
@@ -38,6 +38,8 @@ class Iconverter
             $customIconName
         );
         $converter->createIcons();
+
+        return $outputDirectoryPath;
     }
 
     private function generateDefaultOutputDirectoryName($absoluteIconPath)
