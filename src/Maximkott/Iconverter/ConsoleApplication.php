@@ -9,6 +9,7 @@ class ConsoleApplication
     private $args;
     private $relativeIconPath;
     private $absoluteIconPath;
+    private $customIconName;
     private $converter;
 
     public function __construct(array $args)
@@ -67,8 +68,6 @@ class ConsoleApplication
             $this->absoluteIconPath = implode("/", [$this->cwd, $this->relativeIconPath]);
         }
 
-        $customIconName = null;
-
         if ( ! file_exists($this->absoluteIconPath)) {
             $this->abort("error: no icon found at: $this->absoluteIconPath");
         }
@@ -87,7 +86,7 @@ class ConsoleApplication
                 $this->abort("error: enter an icon name");
             }
 
-            $customIconName = $this->flags[$index];
+            $this->customIconName = $this->flags[$index];
         }
 
         if ( ! isset($this->args[0])) {
