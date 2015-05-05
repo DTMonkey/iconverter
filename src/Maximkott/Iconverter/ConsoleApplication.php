@@ -9,6 +9,7 @@ class ConsoleApplication
     private $args;
     private $relativeIconPath;
     private $absoluteIconPath;
+    private $converter;
 
     public function __construct(array $args)
     {
@@ -94,11 +95,11 @@ class ConsoleApplication
         }
 
         if (in_array("-a", $this->flags) or in_array("--android", $this->flags)) {
-            $this->createAndroidIcons($this->absoluteIconPath, $customIconName);
+            $this->createAndroidIcons();
         }
 
         if (in_array("-i", $this->flags) or in_array("--ios", $this->flags)) {
-            $this->createIosIcons($this->absoluteIconPath, $customIconName);
+            $this->createIosIcons();
         }
 
         if ( ! in_array("-a", $this->flags)
@@ -106,34 +107,40 @@ class ConsoleApplication
             and ! in_array("-i", $this->flags)
             and ! in_array("--ios", $this->flags)
         ) {
-            $this->createAndroidIcons($this->absoluteIconPath, $customIconName);
-            $this->createIosIcons($this->absoluteIconPath, $customIconName);
+            $this->createAndroidIcons();
+            $this->createIosIcons();
         }
 
         if (in_array("-z", $this->flags) or in_array("--zip", $this->flags)) {
-            $this->zipIcons($this->absoluteIconPath);
+            $this->zipIcons();
         }
     }
 
-    private function createAndroidIcons($absoluteIconPath, $customIconName)
+    private function getConverter()
+    {
+        if ($this->converter === null) {
+            $this->converter = new Iconverter($this->absoluteIconPath, $this->customIconName);
+        }
+
+        return $this->converter;
+    }
+
+    private function createAndroidIcons()
     {
         $this->terminal->say("creating android icons.");
-        $converter = new Iconverter();
-        $converter->createAndroidIcons($absoluteIconPath, $customIconName);
+        $this->getConverter()->createAndroidIcons();
     }
 
-    private function createIosIcons($absoluteIconPath, $customIconName)
+    private function createIosIcons()
     {
         $this->terminal->say("creating ios icons.");
-        $converter = new Iconverter();
-        $converter->createIosIcons($absoluteIconPath, $customIconName);
+        $this->getConverter()->createIosIcons();
     }
 
-    private function zipIcons($absoluteIconPath)
+    private function zipIcons()
     {
         $this->terminal->say("creating zip file.");
-        $converter = new Iconverter();
-        $converter->zipIcons($absoluteIconPath);
+        $this->getConverter()->zipIcons();
     }
 
     private function abort($string = null)

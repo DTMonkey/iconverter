@@ -4,25 +4,29 @@ namespace Maximkott\Iconverter;
 
 class Iconverter
 {
+    private $absoluteIconPath;
+    private $customIconName;
     private $settings;
 
-    public function __construct(array $settings = null)
+    public function __construct($absoluteIconPath, $customIconName = null, array $settings = null)
     {
         if ($settings === null) {
             $settings = require __DIR__ . "/../../../settings.php";
         }
 
+        $this->absoluteIconPath = $absoluteIconPath;
+        $this->customIconName = $customIconName;
         $this->settings = $settings;
     }
 
-    public function createAndroidIcons($absoluteIconPath, $customIconName = null)
+    public function createAndroidIcons()
     {
-        return $this->createIcons($this->settings["groups"]["android"], $absoluteIconPath, $customIconName);
+        return $this->createIcons($this->settings["groups"]["android"], $this->absoluteIconPath, $this->customIconName);
     }
 
-    public function createIosIcons($absoluteIconPath, $customIconName = null)
+    public function createIosIcons()
     {
-        return $this->createIcons($this->settings["groups"]["ios"], $absoluteIconPath, $customIconName);
+        return $this->createIcons($this->settings["groups"]["ios"], $this->absoluteIconPath, $this->customIconName);
     }
 
     public function createIcons(array $settings, $absoluteIconPath, $customIconName = null, $outputDirectoryPath = null)
@@ -47,9 +51,9 @@ class Iconverter
         return $absoluteIconPath . "_resized";
     }
 
-    public function zipIcons($absoluteIconPath)
+    public function zipIcons()
     {
-        $outputDirectoryPath = $this->generateDefaultOutputDirectoryName($absoluteIconPath);
+        $outputDirectoryPath = $this->generateDefaultOutputDirectoryName($this->absoluteIconPath);
 
         if (is_dir($outputDirectoryPath)) {
             $zipName = "icons.zip";
