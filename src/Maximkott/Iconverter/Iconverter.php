@@ -46,4 +46,22 @@ class Iconverter
     {
         return $absoluteIconPath . "_resized";
     }
+
+    public function zipIcons($absoluteIconPath)
+    {
+        $outputDirectoryPath = $this->generateDefaultOutputDirectoryName($absoluteIconPath);
+
+        if (is_dir($outputDirectoryPath)) {
+            $zipName = "icons.zip";
+            $baseDir = dirname($outputDirectoryPath);
+            $outputDir = basename($outputDirectoryPath);
+            $absoluteZipPath =  "$baseDir/$zipName";
+
+            if (file_exists($absoluteZipPath)) {
+                exec("rm -rf $absoluteZipPath");
+            }
+
+            exec("cd $baseDir; zip -r $zipName $outputDir");
+        }
+    }
 }

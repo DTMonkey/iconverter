@@ -42,6 +42,7 @@ class ConsoleApplication
             $this->terminal->say("    -n --name       name for generated icons");
             $this->terminal->say("    -a --android    convert icon for android");
             $this->terminal->say("    -i --ios        convert icon for ios");
+            $this->terminal->say("    -z --zip        zip generated icons");
 
             $this->abort();
         }
@@ -108,6 +109,10 @@ class ConsoleApplication
             $this->createAndroidIcons($this->absoluteIconPath, $customIconName);
             $this->createIosIcons($this->absoluteIconPath, $customIconName);
         }
+
+        if (in_array("-z", $this->flags) or in_array("--zip", $this->flags)) {
+            $this->zipIcons($this->absoluteIconPath);
+        }
     }
 
     private function createAndroidIcons($absoluteIconPath, $customIconName)
@@ -122,6 +127,13 @@ class ConsoleApplication
         $this->terminal->say("creating ios icons.");
         $converter = new Iconverter();
         $converter->createIosIcons($absoluteIconPath, $customIconName);
+    }
+
+    private function zipIcons($absoluteIconPath)
+    {
+        $this->terminal->say("creating zip file.");
+        $converter = new Iconverter();
+        $converter->zipIcons($absoluteIconPath);
     }
 
     private function abort($string = null)
