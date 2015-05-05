@@ -127,3 +127,6 @@ Generating an icon without further options will generate this file sturcture for
         * icon-72@2x.png
         * icon-Small.png
 ```
+
+### Note
+Built from scratch on purpose ;)
