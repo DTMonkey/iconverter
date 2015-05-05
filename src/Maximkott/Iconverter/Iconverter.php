@@ -66,6 +66,10 @@ class Iconverter
             }
 
             exec("cd $baseDir; zip -r $zipName $outputDir");
+
+            return $absoluteZipPath;
         }
+
+        return null;
     }
 }
