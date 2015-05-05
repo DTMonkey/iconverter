@@ -1,6 +1,6 @@
 ### Installing graphicsmagick
 
-You will have to install graphicsmagick to use iconverter.
+You will have to install graphicsmagick (and zip) to use iconverter.
 
 ```
 # on OSX
@@ -10,6 +10,7 @@ $ brew install graphicsmagick
 $ sudo add-apt-repository ppa:dhor/myway
 $ sudo apt-get update
 $ sudo apt-get install graphicsmagick
+$ sudo apt-get install zip
 ```
 
 ### Installing iconverter
@@ -30,6 +31,7 @@ $ iconverter -h
         -n --name       name for generated icons
         -a --android    convert icon for android
         -i --ios        convert icon for ios
+        -z --zip        zip generated icons
 ```
 
 Generate icons from an image:
@@ -56,11 +58,14 @@ This will generate icons as follows:
 ### PHP usage
 
 ```
-$converter = new Iconverter(); // use default settings
-$converter = new Iconverter($settings); // use custom settings
+// minimal setup
+$converter = new Iconverter($absoluteIconPath);
+// rename icon and use custom settings
+$converter = new Iconverter($absoluteIconPath, $customIconName, $settings);
 
-$converter->createIosIcons($absoluteIconPath, $customIconName); // create icons for ios
-$converter->createAndroidIcons($absoluteIconPath, $customIconName); // create icons for android
+$converter->createIosIcons(); // create icons for ios
+$converter->createAndroidIcons(); // create icons for android
+$converter->zipIcons(); // zip generated icons
 ```
 
 ### Custom settings

@@ -11,7 +11,8 @@
     "minimum-stability": "dev",
     "bin": ["bin/iconverter"],
     "suggest": {
-        "graphicsmagick": "to convert icons."
+        "graphicsmagick": "Is required to convert icons.",
+        "zip": "Is required to zip icons."
     },
     "autoload": {
         "psr-4": {
