@@ -31,6 +31,7 @@ $ iconverter -h
         -n --name       name for generated icons
         -a --android    convert icon for android
         -i --ios        convert icon for ios
+        -w --windows    convert icon for windows phone
         -z --zip        zip generated icons
 ```
 
@@ -53,6 +54,9 @@ This will generate icons as follows:
 * ic_stat_home.png
 * home-76.pg
 * home-Small@2x.png
+* Square44x44_home.png
+* Square150x150_home.png
+* Wide310x150_home.png
 ```
 
 ### PHP usage
@@ -65,6 +69,7 @@ $converter = new Iconverter($absoluteIconPath, $customIconName, $settings);
 
 $converter->createIosIcons(); // create icons for ios
 $converter->createAndroidIcons(); // create icons for android
+$converter->createWindowsPhoneIcons(); // create icons for windows phone
 $converter->zipIcons(); // zip generated icons
 ```
 
@@ -78,7 +83,7 @@ Generating an icon without further options will generate this file sturcture for
 
 ```
 * icon.png
-> icon.png_resized # resized icons are in here
+> icon.png_resized
    > android
        > drawable-hdpi
             * ic_icon.png
@@ -126,6 +131,31 @@ Generating an icon without further options will generate this file sturcture for
         * icon-40@2x.png
         * icon-72@2x.png
         * icon-Small.png
+    > windowsPhone
+        > Scale-100
+            * BadgeLogo.png
+            * SplashScreen.png
+            * Square44x44_icon.png
+            * Square71x71_icon.png
+            * Square150x150_icon.png
+            * StoreLogo.png
+            * Wide310x150_icon.png
+        > Scale-140
+            * BadgeLogo.png
+            * SplashScreen.png
+            * Square44x44_icon.png
+            * Square71x71_icon.png
+            * Square150x150_icon.png
+            * StoreLogo.png
+            * Wide310x150_icon.png
+        > Scale-240
+            * BadgeLogo.png
+            * SplashScreen.png
+            * Square44x44_icon.png
+            * Square71x71_icon.png
+            * Square150x150_icon.png
+            * StoreLogo.png
+            * Wide310x150_icon.png
 ```
 
 ### Note
