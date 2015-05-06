@@ -43,6 +43,7 @@ class ConsoleApplication
             $this->terminal->say("    icon            relative icon path");
             $this->terminal->say("    -n --name       name for generated icons");
             $this->terminal->say("    -a --android    convert icon for android");
+            $this->terminal->say("    -w --windows    convert icon for windows phone");
             $this->terminal->say("    -i --ios        convert icon for ios");
             $this->terminal->say("    -z --zip        zip generated icons");
 
@@ -101,13 +102,20 @@ class ConsoleApplication
             $this->createIosIcons();
         }
 
+        if (in_array("-w", $this->flags) or in_array("--windows", $this->flags)) {
+            $this->createWindowsPhoneIcons();
+        }
+
         if ( ! in_array("-a", $this->flags)
             and ! in_array("--android", $this->flags)
             and ! in_array("-i", $this->flags)
             and ! in_array("--ios", $this->flags)
+            and ! in_array("-w", $this->flags)
+            and ! in_array("--windows", $this->flags)
         ) {
             $this->createAndroidIcons();
             $this->createIosIcons();
+            $this->createWindowsPhoneIcons();
         }
 
         if (in_array("-z", $this->flags) or in_array("--zip", $this->flags)) {
@@ -134,6 +142,12 @@ class ConsoleApplication
     {
         $this->terminal->say("creating ios icons.");
         $this->getConverter()->createIosIcons();
+    }
+
+    private function createWindowsPhoneIcons()
+    {
+        $this->terminal->say("creating windows phone icons.");
+        $this->getConverter()->createWindowsPhoneIcons();
     }
 
     private function zipIcons()

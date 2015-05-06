@@ -29,6 +29,11 @@ class Iconverter
         return $this->createIcons($this->settings["groups"]["ios"], $this->absoluteIconPath, $this->customIconName);
     }
 
+    public function createWindowsPhoneIcons()
+    {
+        return $this->createIcons($this->settings["groups"]["windowsPhone"], $this->absoluteIconPath, $this->customIconName);
+    }
+
     public function createIcons(array $settings, $absoluteIconPath, $customIconName = null, $outputDirectoryPath = null)
     {
         if ($outputDirectoryPath === null) {

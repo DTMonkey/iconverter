@@ -58,5 +58,33 @@ return [
                 ["name" => "iTunesArtwork@2x", "size" => "1024x1024"],
             ],
         ],
+        "windowsPhone" => [
+            "subdir" => "windowsPhone",
+            "icons" => [
+                ["name" => "Square71x71_%filename%", "subdir" => "Scale-100", "size" => "71x71"],
+                ["name" => "Square150x150_%filename%", "subdir" => "Scale-100", "size" => "150x150"],
+                ["name" => "Wide310x150_%filename%", "subdir" => "Scale-100", "size" => "310x150"],
+                ["name" => "Square44x44_%filename%", "subdir" => "Scale-100", "size" => "44x44"],
+                ["name" => "StoreLogo", "subdir" => "Scale-100", "size" => "50x50"],
+                ["name" => "BadgeLogo", "subdir" => "Scale-100", "size" => "24x24"],
+                ["name" => "SplashScreen", "subdir" => "Scale-100", "size" => "480x800"],
+
+                ["name" => "Square71x71_%filename%", "subdir" => "Scale-140", "size" => "99x99"],
+                ["name" => "Square150x150_%filename%", "subdir" => "Scale-140", "size" => "210x210"],
+                ["name" => "Wide310x150_%filename%", "subdir" => "Scale-140", "size" => "434x210"],
+                ["name" => "Square44x44_%filename%", "subdir" => "Scale-140", "size" => "62x62"],
+                ["name" => "StoreLogo", "subdir" => "Scale-140", "size" => "70x70"],
+                ["name" => "BadgeLogo", "subdir" => "Scale-140", "size" => "33x33"],
+                ["name" => "SplashScreen", "subdir" => "Scale-140", "size" => "672x1120"],
+
+                ["name" => "Square71x71_%filename%", "subdir" => "Scale-240", "size" => "170x170"],
+                ["name" => "Square150x150_%filename%", "subdir" => "Scale-240", "size" => "360x360"],
+                ["name" => "Wide310x150_%filename%", "subdir" => "Scale-240", "size" => "744x360"],
+                ["name" => "Square44x44_%filename%", "subdir" => "Scale-240", "size" => "106x106"],
+                ["name" => "StoreLogo", "subdir" => "Scale-240", "size" => "120x120"],
+                ["name" => "BadgeLogo", "subdir" => "Scale-240", "size" => "58x58"],
+                ["name" => "SplashScreen", "subdir" => "Scale-240", "size" => "1152x1920"],
+            ]
+        ]
     ],
 ];
